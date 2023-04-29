@@ -1,23 +1,22 @@
-import logo from './logo.svg';
 import './App.css';
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+import CustomerList from './components/CustomerList';
+import TrainingList from './components/TrainingList';
+import Calander from './components/Calander';
+import PersistentDrawerLeft from './components/AppDrawer';
 
 function App() {
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+        <PersistentDrawerLeft />
+        <Routes>
+          <Route exact path="/" element={<CustomerList />} />
+          <Route path="/TrainingList" element={<TrainingList />} />
+          <Route path="/Calander" element={<Calander />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
