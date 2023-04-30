@@ -1,51 +1,45 @@
-import React,  { useEffect, useState } from 'react';
-import { AgGridReact } from 'ag-grid-react';
+import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-material.css';
+import { DataGrid } from '@mui/x-data-grid';
 
-export default function TrainingList(){
+export default function TrainingList() {
 
-    const [trainings, setTraining] = useState([{activity:"", date:"", duration:"", customer:""}]);
+    const [trainings, setTraining] = useState([]);
 
 
     useEffect(() => getCustomerList(), []);
     const getCustomerList = () => {
         fetch('https://traineeapp.azurewebsites.net/gettrainings')
             .then(response => response.json())
-            .then(data => {
-                const formattedData = data.map(training => ({
-                    activity: training.activity,
-                    date: dayjs(training.date).format('DD.MM.YYYY HH:mm a'),
-                    duration: training.duration,
-                    customer: training.customer ? `${training.customer.firstname} ${training.customer.lastname}` : ''
-                }));
-                setTraining(formattedData);
-            });
-
+            .then(data => setTraining(data));
     }
 
-            const [columnDefs] =useState( [
-                { field: 'activity', sortable: true, filter: true },
-                { field: 'date', sortable: true, filter: true },
-                { field: 'duration', headerName:'Duration(min)', sortable: true, filter: true },
-                { field: 'customer', headerName:'Customer', sortable: true, filter: true },
+    const columns = [
+        { field: 'activity', sortable: true, width: 200 },
+        {
+            field: 'date', sortable: true, width: 200,
+            valueFormatter: (params) => dayjs(params.value).format('DD.MM.YYYY HH:mm a')
+        },
+        { field: 'duration', headerName: 'Duration(min)', sortable: true, width: 200 },
+        {
+            field: 'customer', headerName: 'Customer', sortable: true, width: 200,
+            valueGetter: (params) => params.row.customer.firstname + ' ' + params.row.customer.lastname
+        },];
 
-            ])
+    const getRowId = (row) => row.id;
 
-        return(
-            <div>
-                <h1 className='heading'>Trainings</h1>
-                <div className='ag-theme-material'
-                style={{ width: '90%', height: 600, margin: 'auto' }}>
-                <AgGridReact
-                    rowData={trainings}
-                    columnDefs={columnDefs}
-                    pagination={true}
-                    paginationPageSize={10}
+    return (
+        <div>
+            <h1 className='heading'>Trainings</h1>
+            <div style={{ height: 600, width: '100%', margin: 'auto' }}>
+                <DataGrid
+                    rows={trainings}
+                    columns={columns}
+                    getRowId={getRowId}
                 />
-                </div>
             </div>
-        );
-
+        </div>
+    );
 }

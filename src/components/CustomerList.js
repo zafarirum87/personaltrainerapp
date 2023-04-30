@@ -17,7 +17,6 @@ export default function CustomerList() {
         fetch('https://traineeapp.azurewebsites.net/api/customers')
             .then(response => response.json())
             .then(data => setCustomers(data.content));
-        console.log(customers);
     }
     //AG grid columns definition
     const [columnDefs] = useState([
