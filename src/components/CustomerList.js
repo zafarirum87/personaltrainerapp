@@ -28,6 +28,7 @@ export default function CustomerList(){
 
         return(
             <div>
+                <h1 className='heading'>Customers</h1>
                 <div className='ag-theme-material'
                 style={{ width: '100%', height: 600, margin: 'auto' }}>
                 <AgGridReact

@@ -37,3 +37,11 @@
     transform: rotate(360deg);
   }
 }
+.heading{
+  font-size: 30px;
+  font-weight: bold;
+  margin: 30px;
+  padding-top: 30px;
+  text-align: left;
+  color: #282c34;
+}

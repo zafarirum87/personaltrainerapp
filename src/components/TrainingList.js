@@ -35,6 +35,7 @@ export default function TrainingList(){
 
         return(
             <div>
+                <h1 className='heading'>Trainings</h1>
                 <div className='ag-theme-material'
                 style={{ width: '90%', height: 600, margin: 'auto' }}>
                 <AgGridReact
