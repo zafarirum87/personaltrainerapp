@@ -19,12 +19,14 @@ import ListItemText from '@mui/material/ListItemText';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PortraitIcon from '@mui/icons-material/Portrait';
-import { Link } from "react-router-dom";
+import CustomerList from './CustomerList';
+import TrainingList from './TrainingList';
+import Calander from './Calander';
 
 
 
 
-//------ Drawer Main part defination-----
+//1------ Drawer Main part defination-----
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -46,7 +48,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     }),
 );
 
-//----App Bar part defination ----
+//2----App Bar part defination ----
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
@@ -64,7 +66,7 @@ const AppBar = styled(MuiAppBar, {
     }),
 }));
 
-//---Drawer Header part ----
+//3---Drawer Header part ----
 const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
@@ -75,9 +77,10 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 // ---- MUI Persistent-Drawer-Left function------
-export default function PersistentDrawerLeft(props) {
+export default function PersistentDrawerLeft() {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
+    const [openPage, setOpenPage] = React.useState('CustomerList');
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -125,53 +128,47 @@ export default function PersistentDrawerLeft(props) {
                     </IconButton>
                 </DrawerHeader>
                 <Divider />
-
                 <List>
-                    <Link to="/"
-                        style={{ textDecoration: 'none', color: 'black' }}>
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <PortraitIcon />
-                                </ListItemIcon>
+                    <ListItem disablePadding onClick={() => setOpenPage('CustomerList')}>
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <PortraitIcon />
+                            </ListItemIcon>
 
-                                <ListItemText>Customers</ListItemText>
-                            </ListItemButton>
-                        </ListItem>
-                    </Link>{' '}
+                            <ListItemText>Customers</ListItemText>
+                        </ListItemButton>
+                    </ListItem>
                 </List>
                 <Divider />
                 <List>
-                    <Link to="/TrainingList"
-                        style={{ textDecoration: 'none', color: 'black' }}>
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <DirectionsRunIcon />
-                                </ListItemIcon>
-                                <ListItemText>Trainings</ListItemText>
-                            </ListItemButton>
-                        </ListItem>
-                    </Link>{' '}
+                    <ListItem disablePadding onClick={() => setOpenPage('TrainingList')}>
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <DirectionsRunIcon />
+                            </ListItemIcon>
+                            <ListItemText>Trainings</ListItemText>
+                        </ListItemButton>
+                    </ListItem>
+
                 </List>
                 <Divider />
                 <List>
-                    <Link to="/Calander"
-                        style={{ textDecoration: 'none', color: 'black' }} >
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <CalendarMonthIcon />
-                                </ListItemIcon>
-                                <ListItemText>Calander</ListItemText>
-                            </ListItemButton>
-                        </ListItem>
-                    </Link>{' '}
+                    <ListItem disablePadding onClick={() => setOpenPage('Calanader')}>
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <CalendarMonthIcon />
+                            </ListItemIcon>
+                            <ListItemText>Calander</ListItemText>
+                        </ListItemButton>
+                    </ListItem>
                 </List>
                 <Divider />
             </Drawer>
             <Main open={open} >
-                <DrawerHeader />
+                {openPage === 'CustomerList' && <CustomerList />}
+                {openPage === 'TrainingList' && <TrainingList />}
+                {openPage === 'Calanader' && <Calander />}
+
             </Main>
         </Box>
     );
