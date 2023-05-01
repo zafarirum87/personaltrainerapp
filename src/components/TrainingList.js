@@ -3,12 +3,12 @@ import dayjs from 'dayjs';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-material.css';
 import { DataGrid } from '@mui/x-data-grid';
-
+import { TextField } from '@mui/material';
 
 export default function TrainingList() {
 
     const [trainings, setTraining] = useState([]);
-
+    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => getCustomerList(), []);
     const getCustomerList = () => {
@@ -32,10 +32,11 @@ export default function TrainingList() {
     const getRowId = (row) => row.id;
 
 
+
+
     return (
         <div>
             <h1 className='heading'>Trainings</h1>
-
             <div style={{ height: 600, width: '100%', margin: 'auto' }}>
                 <DataGrid
                     rows={trainings}

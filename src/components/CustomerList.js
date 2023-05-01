@@ -102,7 +102,7 @@ export default function CustomerList() {
                 <input className='inputSearch' type='text' id='filter-text-box'
                     placeholder='Search here' onChange={onFilterTextBoxChanged} />
             </div>
-            <div className='ag-theme-material'>
+            <div className='ag-theme-material' >
                 <AgGridReact
                     rowData={customers}
                     columnDefs={columnDefs}
