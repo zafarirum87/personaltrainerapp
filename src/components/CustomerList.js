@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import AddCustomer from './AddCustomer';
 import 'ag-grid-community/styles/ag-grid.css';
@@ -6,6 +6,7 @@ import 'ag-grid-community/styles/ag-theme-material.css';
 import EditCustomer from './EditCustomer';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
+import SearchIcon from '@mui/icons-material/Search';
 
 export default function CustomerList() {
 
@@ -31,10 +32,12 @@ export default function CustomerList() {
             sortable: false, filter: false,
             cellRenderer: params => <EditCustomer updateCustomer={updateCustomer} customer={params.data} />
         },
-        { sortable: false, filter: false, width: 120,
+        {
+            sortable: false, filter: false, width: 120,
             cellRenderer: params =>
-            <IconButton size='small'
-             onClick={() => deleteCustomer(params)}><DeleteIcon/></IconButton>},
+                <IconButton size='small'
+                    onClick={() => deleteCustomer(params)}><DeleteIcon /></IconButton>
+        },
 
     ])
     //Saving newly added customer
@@ -51,7 +54,7 @@ export default function CustomerList() {
     }
 
     //updating customer
-    const updateCustomer = (customer,link) => {
+    const updateCustomer = (customer, link) => {
         fetch(link,
             {
                 method: 'PUT',
@@ -78,18 +81,38 @@ export default function CustomerList() {
                 .catch(err => console.error(err))
         }
     }
+    // AG grid filtering function
+    const onFilterTextBoxChanged = useCallback(() => {
+        gridRef.current.api.setQuickFilter(
+            document.getElementById('filter-text-box').value
+        );
+    }, []);
+    const gridRef = useRef();
+    const onGridReady = (params) => {
+        params.api.sizeColumnsToFit();
+    };
+
 
     //Rendering the table
     return (
         <div>
             <h1 className='heading'>Customers</h1>
-            <div className='ag-theme-material'
-                style={{ width: '100%', height: 600, margin: 'auto' }}>
+            <div id="searchInput" >
+                <label htmlFor='filter-text-box'><SearchIcon/> </label>
+                <input className='inputSearch' type='text' id='filter-text-box'
+                    placeholder='Search here' onChange={onFilterTextBoxChanged} />
+            </div>
+            <div className='ag-theme-material'>
                 <AgGridReact
                     rowData={customers}
                     columnDefs={columnDefs}
                     pagination={true}
                     paginationPageSize={10}
+                    onGridReady={onGridReady}
+                    // add additional properties for filtering
+                    enableFilter={true}
+                    floatingFilter={true}
+                    ref={gridRef}
                 />
             </div>
             <div>
