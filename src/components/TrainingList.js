@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import dayjs from 'dayjs';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-material.css';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
+import SearchIcon from '@mui/icons-material/Search';
 
 export default function TrainingList() {
 
@@ -58,10 +59,25 @@ export default function TrainingList() {
                 .catch(err => console.error(err))
         }
     }
+    // AG grid filtering function
+    const onFilterTextBoxChanged = useCallback(() => {
+        gridRef.current.api.setQuickFilter(
+            document.getElementById('filter-text-box').value
+        );
+    }, []);
+    const gridRef = useRef();
+    const onGridReady = (params) => {
+        params.api.sizeColumnsToFit();
+    };
 
     return (
         <div>
             <h1 className='heading'>Trainings</h1>
+            <div id="searchInput" >
+                <label htmlFor='filter-text-box'><SearchIcon /> </label>
+                <input className='inputSearch' type='text' id='filter-text-box'
+                    placeholder='Search here' onChange={onFilterTextBoxChanged} />
+            </div>
             <div className='ag-theme-material'
                 style={{ width: '90%', height: 600, margin: 'auto' }}>
                 <AgGridReact
@@ -69,6 +85,11 @@ export default function TrainingList() {
                     columnDefs={columnDefs}
                     pagination={true}
                     paginationPageSize={10}
+                    onGridReady={onGridReady}
+                    // add additional properties for filtering
+                    enableFilter={true}
+                    floatingFilter={true}
+                    ref={gridRef}
                 />
             </div>
         </div>
