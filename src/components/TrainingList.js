@@ -3,12 +3,11 @@ import dayjs from 'dayjs';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-material.css';
 import { DataGrid } from '@mui/x-data-grid';
-import { TextField } from '@mui/material';
+
 
 export default function TrainingList() {
 
     const [trainings, setTraining] = useState([]);
-    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => getCustomerList(), []);
     const getCustomerList = () => {
@@ -26,7 +25,7 @@ export default function TrainingList() {
         { field: 'duration', headerName: 'Duration(min)', sortable: true, width: 200 },
         {
             field: 'customer', headerName: 'Customer', sortable: true, width: 200,
-            valueGetter: (params) => params.row.customer?`${params.row.customer.firstname} ${params.row.customer.lastname}`:""
+            valueGetter: (params) => params.row.customer ? `${params.row.customer.firstname} ${params.row.customer.lastname}` : ""
         },];
 
     const getRowId = (row) => row.id;

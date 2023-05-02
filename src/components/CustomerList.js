@@ -7,6 +7,7 @@ import EditCustomer from './EditCustomer';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
+import AddTrainingToCustomer from './AddTrainingToCustomer';
 
 export default function CustomerList() {
 
@@ -21,6 +22,10 @@ export default function CustomerList() {
     }
     //AG grid columns definition
     const [columnDefs] = useState([
+        {
+            sortable: false, filter: false, width: 200,
+            cellRenderer: params => <AddTrainingToCustomer addTraining={addTraining } customer={params.data} />
+        },
         { field: 'firstname', sortable: true, filter: true },
         { field: 'lastname', sortable: true, filter: true },
         { field: 'email', sortable: true, filter: true, width: 200 },
@@ -91,6 +96,19 @@ export default function CustomerList() {
     const onGridReady = (params) => {
         params.api.sizeColumnsToFit();
     };
+    
+// add training to customer
+    const addTraining = (training) => {
+        fetch('https://traineeapp.azurewebsites.net/api/trainings', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(training)
+        })
+            .then(res => getCustomerList())
+            .catch(err => console.error(err))
+    }
 
 
     //Rendering the table
