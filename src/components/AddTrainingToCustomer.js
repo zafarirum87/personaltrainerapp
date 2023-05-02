@@ -16,7 +16,7 @@ export default function AddTrainingToCustomer(props) {
     const [open, setOpen] = React.useState(false);
     // training object
     const [training, setTraining] = React.useState({
-        activity: '', date: '', duration: ''
+        activity: '', date: '', duration: '', customer: ''
     });
     // customer object
     const [customer, setCustomer] = React.useState({
@@ -28,7 +28,6 @@ export default function AddTrainingToCustomer(props) {
             firstname: props.customer.firstname, lastname: props.customer.lastname,
             customerId: props.customer.links[0].href
         });
-        console.log(props.customer.links[0].href);
         setOpen(true);
     };
 

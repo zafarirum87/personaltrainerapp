@@ -17,7 +17,6 @@ export default function TrainingList() {
             .then(response => response.json())
             .then(data => {
                 setTraining(data);
-                console.log(data);
             });
 
     }
@@ -50,7 +49,6 @@ export default function TrainingList() {
 
     //Delete training from the list (not deleting given id said not found in the APIn)
     const deleteTraining = (params) => {
-        console.log(params);
         if (window.confirm('Are you sure?')) {
             fetch("https://traineeapp.azurewebsites.net/api/trainings/" + params,
                 {

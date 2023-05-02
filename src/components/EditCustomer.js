@@ -17,7 +17,6 @@ export default function EditCustomer(props) {
         streetaddress: '', postcode: '', city: ''
     });
     const handleClickOpen = () => {
-        console.log(props.customer);
         setCustomer({
             firstname: props.customer.firstname, lastname: props.customer.lastname,
             email: props.customer.email, phone: props.customer.phone,
