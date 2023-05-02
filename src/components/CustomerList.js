@@ -96,7 +96,7 @@ export default function CustomerList() {
     const onGridReady = (params) => {
         params.api.sizeColumnsToFit();
     };
-    
+
 // add training to customer
     const addTraining = (training) => {
         fetch('https://traineeapp.azurewebsites.net/api/trainings', {
