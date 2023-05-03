@@ -12,8 +12,8 @@ export default function TrainingList() {
     const [trainings, setTraining] = useState([]);
 
 
-    useEffect(() => getCustomerList(), []);
-    const getCustomerList = () => {
+    useEffect(() => getTrainingList(), []);
+    const getTrainingList = () => {
         fetch('https://traineeapp.azurewebsites.net/gettrainings')
             .then(response => response.json())
             .then(data => {
@@ -55,7 +55,7 @@ export default function TrainingList() {
                 {
                     method: 'DELETE'
                 })
-                .then(_ => getCustomerList())
+                .then(_ => getTrainingList())
                 .catch(err => console.error(err))
         }
     }

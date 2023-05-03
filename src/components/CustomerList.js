@@ -8,9 +8,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import AddTrainingToCustomer from './AddTrainingToCustomer';
-import { Button } from '@mui/material';
-
-
+import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
+import Tooltip from '@mui/material/Tooltip';
 
 export default function CustomerList() {
 
@@ -27,7 +26,7 @@ export default function CustomerList() {
     const [columnDefs] = useState([
         {
             sortable: false, filter: false, width: 300, headerName: 'Add Trainings',
-            cellRenderer: params => <AddTrainingToCustomer addTraining={addTraining } customer={params.data} />
+            cellRenderer: params => <AddTrainingToCustomer addTraining={addTraining} customer={params.data} />
         },
         { field: 'firstname', sortable: true, filter: true },
         { field: 'lastname', sortable: true, filter: true },
@@ -111,7 +110,7 @@ export default function CustomerList() {
         };
         gridRef.current.api.exportDataAsCsv(params);
     }
-// add training to customer
+    // add training to customer
     const addTraining = (training) => {
         fetch('https://traineeapp.azurewebsites.net/api/trainings', {
             method: 'POST',
@@ -130,10 +129,13 @@ export default function CustomerList() {
         <div>
             <h1 className='heading'>Customers</h1>
             <div id="searchInput" >
-                <label htmlFor='filter-text-box'><SearchIcon/> </label>
+                <label htmlFor='filter-text-box'><SearchIcon /> </label>
                 <input className='inputSearch' type='text' id='filter-text-box'
                     placeholder='Search here' onChange={onFilterTextBoxChanged} />
-                <Button onClick={() => onExportClick()}>Export</Button>
+                <Tooltip title="Download">
+                    <IconButton onClick={() => onExportClick()} style={{}}>
+                        <FileDownloadOutlinedIcon /></IconButton>
+                </Tooltip>
             </div>
             <div className='ag-theme-material'>
                 <AgGridReact
