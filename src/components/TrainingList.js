@@ -40,7 +40,7 @@ export default function TrainingList() {
             }
         },
         {
-            sortable: false, filter: false, width: 120,
+            sortable: false, filter: false, width: 120, headerName: 'Delete',
             cellRenderer: params =>
                 <IconButton size='small'
                     onClick={() => deleteTraining(params.data.id)}><DeleteIcon /></IconButton>
@@ -84,7 +84,6 @@ export default function TrainingList() {
                     rowData={trainings}
                     columnDefs={columnDefs}
                     pagination={true}
-                    paginationPageSize={10}
                     onGridReady={onGridReady}
                     // add additional properties for filtering
                     enableFilter={true}

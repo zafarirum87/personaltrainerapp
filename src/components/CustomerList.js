@@ -8,6 +8,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import AddTrainingToCustomer from './AddTrainingToCustomer';
+import { Button } from '@mui/material';
+
+
 
 export default function CustomerList() {
 
@@ -23,22 +26,22 @@ export default function CustomerList() {
     //AG grid columns definition
     const [columnDefs] = useState([
         {
-            sortable: false, filter: false, width: 200,
+            sortable: false, filter: false, width: 300, headerName: 'Add Trainings',
             cellRenderer: params => <AddTrainingToCustomer addTraining={addTraining } customer={params.data} />
         },
         { field: 'firstname', sortable: true, filter: true },
         { field: 'lastname', sortable: true, filter: true },
-        { field: 'email', sortable: true, filter: true, width: 200 },
-        { field: 'phone', sortable: true, filter: true, width: 150 },
-        { field: 'streetaddress', headerName: 'Adress', width: 200, sortable: true, filter: true },
-        { field: 'postcode', sortable: true, filter: true, width: 150 },
+        { field: 'email', sortable: true, filter: true, width: 300 },
+        { field: 'phone', sortable: true, filter: true, width: 200 },
+        { field: 'streetaddress', headerName: 'Adress', width: 300, sortable: true, filter: true },
+        { field: 'postcode', sortable: true, filter: true, width: 200 },
         { field: 'city', sortable: true, filter: true, width: 200 },
         {
-            sortable: false, filter: false,
+            sortable: false, filter: false, headerName: 'Edit', width: 200,
             cellRenderer: params => <EditCustomer updateCustomer={updateCustomer} customer={params.data} />
         },
         {
-            sortable: false, filter: false, width: 120,
+            sortable: false, filter: false, width: 200, headerName: 'Delete',
             cellRenderer: params =>
                 <IconButton size='small'
                     onClick={() => deleteCustomer(params)}><DeleteIcon /></IconButton>
@@ -87,16 +90,27 @@ export default function CustomerList() {
         }
     }
     // AG grid filtering function
+    const gridRef = useRef();
+
+    const onGridReady = (params) => {
+        gridRef.current = params;
+        params.api.sizeColumnsToFit();
+    };
     const onFilterTextBoxChanged = useCallback(() => {
         gridRef.current.api.setQuickFilter(
             document.getElementById('filter-text-box').value
         );
     }, []);
-    const gridRef = useRef();
-    const onGridReady = (params) => {
-        params.api.sizeColumnsToFit();
-    };
 
+
+    //Exporting data to csv
+    const onExportClick = () => {
+        const params = {
+            fileName: 'customers.csv',
+            columnKeys: ['firstname', 'lastname', 'email', 'phone', 'streetaddress', 'postcode', 'city'],
+        };
+        gridRef.current.api.exportDataAsCsv(params);
+    }
 // add training to customer
     const addTraining = (training) => {
         fetch('https://traineeapp.azurewebsites.net/api/trainings', {
@@ -119,21 +133,19 @@ export default function CustomerList() {
                 <label htmlFor='filter-text-box'><SearchIcon/> </label>
                 <input className='inputSearch' type='text' id='filter-text-box'
                     placeholder='Search here' onChange={onFilterTextBoxChanged} />
+                <Button onClick={() => onExportClick()}>Export</Button>
             </div>
-            <div className='ag-theme-material' >
+            <div className='ag-theme-material'>
                 <AgGridReact
                     rowData={customers}
                     columnDefs={columnDefs}
                     pagination={true}
-                    paginationPageSize={10}
                     onGridReady={onGridReady}
                     // add additional properties for filtering
                     enableFilter={true}
                     floatingFilter={true}
                     ref={gridRef}
                 />
-            </div>
-            <div>
                 <AddCustomer saveCustomer={saveCustomer} />
             </div>
         </div>
