@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import _ from 'lodash';
 
 export default function TrainingsChart(){
@@ -28,9 +28,8 @@ export default function TrainingsChart(){
             <BarChart width={1000} height={500} data={groupedData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="activity" />
-                <YAxis label={{ value: 'Duration(min)', angle: -90, position: 'insideLeft' }} />
+                <YAxis label={{ value: 'Duration (min)', angle: -90, position: 'insideLeft' }} />
                 <Tooltip />
-                <Legend />
                 <Bar dataKey="duration" fill="#8884d8" />
             </BarChart>
         </div>
