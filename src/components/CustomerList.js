@@ -31,10 +31,10 @@ export default function CustomerList() {
         { field: 'firstname', sortable: true, filter: true },
         { field: 'lastname', sortable: true, filter: true },
         { field: 'email', sortable: true, filter: true, width: 300 },
-        { field: 'phone', sortable: true, filter: true, width: 200 },
+        { field: 'phone', sortable: true, filter: true, width: 300 },
         { field: 'streetaddress', headerName: 'Adress', width: 300, sortable: true, filter: true },
         { field: 'postcode', sortable: true, filter: true, width: 200 },
-        { field: 'city', sortable: true, filter: true, width: 200 },
+        { field: 'city', sortable: true, filter: true, width: 300 },
         {
             sortable: false, filter: false, headerName: 'Edit', width: 200,
             cellRenderer: params => <EditCustomer updateCustomer={updateCustomer} customer={params.data} />
@@ -100,7 +100,6 @@ export default function CustomerList() {
             document.getElementById('filter-text-box').value
         );
     }, []);
-
 
     //Exporting data to csv
     const onExportClick = () => {

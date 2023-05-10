@@ -22,7 +22,7 @@ import PortraitIcon from '@mui/icons-material/Portrait';
 import CustomerList from './CustomerList';
 import TrainingList from './TrainingList';
 import Calander from './Calander';
-
+import TrainingsChart from './TrainingsChart';
 
 
 
@@ -163,12 +163,23 @@ export default function PersistentDrawerLeft() {
                     </ListItem>
                 </List>
                 <Divider />
+                <List>
+                    <ListItem disablePadding onClick={() => setOpenPage('TrainingsChart')}>
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <CalendarMonthIcon />
+                            </ListItemIcon>
+                            <ListItemText>Trainings Chat</ListItemText>
+                        </ListItemButton>
+                    </ListItem>
+                </List>
+                <Divider />
             </Drawer>
             <Main open={open} >
                 {openPage === 'CustomerList' && <CustomerList />}
                 {openPage === 'TrainingList' && <TrainingList />}
                 {openPage === 'Calanader' && <Calander />}
-
+                {openPage === 'TrainingsChart' && <TrainingsChart />}
             </Main>
         </Box>
     );
