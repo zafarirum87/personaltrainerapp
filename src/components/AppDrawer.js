@@ -23,7 +23,7 @@ import CustomerList from './CustomerList';
 import TrainingList from './TrainingList';
 import Calander from './Calander';
 import TrainingsChart from './TrainingsChart';
-
+import EqualizerIcon from '@mui/icons-material/Equalizer';
 
 
 //1------ Drawer Main part defination-----
@@ -167,9 +167,9 @@ export default function PersistentDrawerLeft() {
                     <ListItem disablePadding onClick={() => setOpenPage('TrainingsChart')}>
                         <ListItemButton>
                             <ListItemIcon>
-                                <CalendarMonthIcon />
+                                <EqualizerIcon />
                             </ListItemIcon>
-                            <ListItemText>Trainings Chat</ListItemText>
+                            <ListItemText>Trainings Chart</ListItemText>
                         </ListItemButton>
                     </ListItem>
                 </List>
